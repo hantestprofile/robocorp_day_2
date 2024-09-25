@@ -7,6 +7,22 @@ from RPA.Archive import Archive
 from RPA.Assistant import Assistant
 
 
+def user_input_task():
+    assistant = Assistant()
+    assistant.add_heading("Input from user")
+    assistant.add_text_input("text_input", placeholder="Please enter URL")
+    assistant.add_submit_buttons("Submit", default="Submit")
+    result = assistant.run_dialog()
+    url = result.text_input
+    open_robot_order_website(url)
+
+
+def open_robot_order_website(url):
+    browser.goto(url)   
+
+user_input_task()
+
+
 @task
 def order_robots_from_RobotSpareBin():
     """rcc
@@ -19,7 +35,7 @@ def order_robots_from_RobotSpareBin():
     browser.configure(
         slowmo=100
     )
-    open_robot_order_website()
+    #open_robot_order_website()
     close_annoying_modal()
     fill_the_form(get_orders())
     embed_screenshot_to_receipt()
@@ -100,14 +116,4 @@ def archive_receipts():
     lib = Archive()
     lib.archive_folder_with_zip('./output/to_send', './output/robots.zip')
 
-def user_input_task():
-    assistant = Assistant()
-    assistant.add_heading("Input from user")
-    assistant.add_text_input("text_input", placeholder="Please enter URL")
-    assistant.add_submit_buttons("Submit", default="Submit")
-    result = assistant.run_dialog()
-    url = result.text_input
-    open_robot_order_website(url)
-
-def open_robot_order_website(url):
-    browser.goto(url)      
+     
