@@ -4,11 +4,12 @@ from RPA.HTTP import HTTP
 from RPA.Tables import Tables
 from RPA.PDF import PDF
 from RPA.Archive import Archive
+from RPA.Assistant import Assistant
 
 
 @task
 def order_robots_from_RobotSpareBin():
-    """
+    """rcc
     Orders robots from RobotSpareBin Industries Inc.
     Saves the order HTML receipt as a PDF file.
     Saves the screenshot of the ordered robot.
@@ -98,3 +99,15 @@ def archive_receipts():
     """Save all final pdf files stored in the 'to_send' folder as a zip archive folder in the output folder"""
     lib = Archive()
     lib.archive_folder_with_zip('./output/to_send', './output/robots.zip')
+
+def user_input_task():
+    assistant = Assistant()
+    assistant.add_heading("Input from user")
+    assistant.add_text_input("text_input", placeholder="Please enter URL")
+    assistant.add_submit_buttons("Submit", default="Submit")
+    result = assistant.run_dialog()
+    url = result.text_input
+    open_robot_order_website(url)
+
+def open_robot_order_website(url):
+    browser.goto(url)      
